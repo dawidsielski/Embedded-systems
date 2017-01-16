@@ -1,0 +1,132 @@
+    void dbgu_print_ascii(const char *a) {}
+       
+	
+    volatile unsigned int *ptrPIOB_PER = (volatile unsigned int *) 0xFFFFF400; // enable register
+    volatile unsigned int *ptrPIOB_OER = (volatile unsigned int *) 0xFFFFF410; // output enable
+    volatile unsigned int *ptrPIOB_ODR = (volatile unsigned int *) 0xFFFFF414; // output disable
+    volatile unsigned int *ptrPIOB_SODR = (volatile unsigned int *) 0xFFFFF430; // set turns off
+    volatile unsigned int *ptrPIOB_CODR = (volatile unsigned int *) 0xFFFFF434; // clear - turns on
+    
+    #define SEG_A 1<<25
+    #define SEG_B 1<<24
+    #define SEG_C 1<<22
+    #define SEG_D 1<<21
+    #define SEG_E 1<<20
+    #define SEG_F 1<<27
+    #define SEG_G 1<<26
+
+    #define DISPLAY_1 1<<30
+    #define DISPLAY_2 1<<28
+    
+    void initialize_displays()
+    {
+	*ptrPIOB_PER = SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F | SEG_G;
+	*ptrPIOB_OER = SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F | SEG_G;
+	*ptrPIOB_CODR = SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F | SEG_G;
+    }
+    void enable_display_1()
+    {
+	*ptrPIOB_PER = DISPLAY_1;
+	*ptrPIOB_OER = DISPLAY_1;
+	*ptrPIOB_CODR = DISPLAY_1;
+    }
+    void enable_display_2()
+    {
+	*ptrPIOB_PER = DISPLAY_2;
+	*ptrPIOB_OER = DISPLAY_2;
+	*ptrPIOB_CODR = DISPLAY_2;
+    }
+    void zero()
+    {
+	*ptrPIOB_SODR = SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F;
+    }
+    void one()
+    {
+	*ptrPIOB_SODR = SEG_B | SEG_C;
+    }
+    void two()
+    {
+	*ptrPIOB_SODR = SEG_A | SEG_B | SEG_D | SEG_E | SEG_G;
+    }
+    void three()
+    {
+	*ptrPIOB_SODR = SEG_A | SEG_B | SEG_C | SEG_D | SEG_G;
+    }
+    void four()
+    {
+	*ptrPIOB_SODR =  SEG_B | SEG_C | SEG_F | SEG_G;
+    }
+    void five()
+    {
+	*ptrPIOB_SODR = SEG_A | SEG_C | SEG_D | SEG_G | SEG_F;
+    }
+    void six()
+    {
+	*ptrPIOB_SODR = SEG_A | SEG_C | SEG_D | SEG_G | SEG_F | SEG_E;
+    }
+    void seven()
+    {
+	*ptrPIOB_SODR = SEG_A | SEG_B | SEG_C;
+    }
+    void eight()
+    {
+	*ptrPIOB_SODR = SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F | SEG_G;
+    }
+    void nine()
+    {
+	*ptrPIOB_SODR = SEG_A | SEG_B | SEG_C | SEG_D | SEG_F | SEG_G;
+    }
+    void clear_all()
+    {
+	*ptrPIOB_CODR = SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F | SEG_G;
+    }
+    void delay()
+    {
+      	volatile unsigned int i;
+	for(i = 0; i < 1500; i++) {
+	    volatile unsigned int j;
+	    for(j = 0; j < 1000; j++){}
+	}
+    }
+    
+    int main()
+    {
+	initialize_displays();
+	clear_all();
+	while(1)
+	{
+	  zero();
+	  delay();
+	  clear_all();
+	  one();
+	  delay();
+	  clear_all();
+	  two();
+	  delay();
+	  clear_all();
+	  three();
+	  delay();
+	  clear_all();
+	  four();
+	  delay();
+	  clear_all();
+	  five();
+	  delay();
+	  clear_all();
+	  six();
+	  delay();
+	  clear_all();
+	  seven();
+	  delay();
+	  clear_all();
+	  eight();
+	  delay();
+	  clear_all();
+	  nine();
+	  delay();
+	  clear_all();
+	}
+	
+	while(1);
+	
+    }
